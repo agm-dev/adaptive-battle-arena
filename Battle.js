@@ -7,6 +7,7 @@ class Battle extends Entity {
     this.fighter1 = fighter1
     this.fighter2 = fighter2
     this.rounds = 0
+    this._MAX_ROUNDS = 100
   }
 
   _genPriority (fighter) {
@@ -36,6 +37,7 @@ class Battle extends Entity {
   }
 
   round () {
+    // TODO: define better logs for this
     this.rounds++
     this._calculateFightersOrder()
     const damage1 = this.firstFighter.stats.strength
@@ -59,7 +61,7 @@ class Battle extends Entity {
   }
 
   getWinner () {
-    while (this.fighter1.health > 0 && this.fighter2.health > 0) {
+    while (this.fighter1.health > 0 && this.fighter2.health > 0 && this.rounds < this._MAX_ROUNDS) {
       this.round()
     }
     if (this.fighter1.health <= 0) {
@@ -70,6 +72,7 @@ class Battle extends Entity {
       console.log(`The winner is fighter 1: ${this.fighter1.id}`)
       return this.fighter1
     }
+    console.log(`There is no winner in this fight`)
     return null
   }
 
